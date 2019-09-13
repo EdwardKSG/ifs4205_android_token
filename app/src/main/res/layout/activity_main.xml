@@ -31,7 +31,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_marginRight="@dimen/_2sdp"
+            android:layout_marginRight="@dimen/_6sdp"
             android:textColor="@color/colorWhite"
             android:text="@string/sign_in"
             android:textSize="@dimen/_15sdp"
@@ -43,7 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textColor="@color/colorWhite"
-            android:layout_marginLeft="@dimen/_2sdp"
+            android:layout_marginLeft="@dimen/_6sdp"
             android:text="@string/sign_up"
             android:textSize="@dimen/_15sdp"
             android:background="@color/colorBlue"/>

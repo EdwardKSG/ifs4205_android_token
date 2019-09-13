@@ -10,7 +10,7 @@
     <string name="camera_permission_refused">" User refused Camera Access permission"</string>
     <string name="password_hint">Password</string>
     <string name="username_hint">Username</string>
-    <string name="nonce_hint">Nonce</string>
+    <string name="nonce_hint">One-Time Code</string>
     <string name="with_fingerprint">With Fingerprint</string>
     <string name="with_fingerprint_and_password">With Fingerprint and Password</string>
     <string name="login_with_fingerprint">LOGIN WITH FINGERPRINT</string>

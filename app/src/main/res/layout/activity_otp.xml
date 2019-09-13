@@ -33,7 +33,15 @@
             android:textColor="@color/colorBlack"
             android:textSize="@dimen/_50sdp"
             android:textStyle="bold"
-            android:text="Your OTP: xxxxxx"
+            android:text="Your OTP:"
+            android:id="@+id/user_otp_title"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorBlue"
+            android:textSize="@dimen/_50sdp"
+            android:textStyle="bold"
             android:id="@+id/user_otp"/>
 
         <TextView
