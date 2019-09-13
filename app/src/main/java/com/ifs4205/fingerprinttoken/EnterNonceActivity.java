@@ -103,7 +103,7 @@ public class EnterNonceActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String nonce = nonceArea.getText().toString();
                 if (TextUtils.isEmpty(nonce)) {
-                    Toast.makeText(view.getContext(), "Please type the nonce", Toast.LENGTH_LONG).show();
+                    Toast.makeText(view.getContext(), "Please scan the QR code or type the one-time code first", Toast.LENGTH_LONG).show();
                     return;
                 } else {
                     Intent userIntent = new Intent(view.getContext(), ShowOtpActivity.class);

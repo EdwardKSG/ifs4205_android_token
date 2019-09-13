@@ -1,7 +1,12 @@
 package com.ifs4205.fingerprinttoken;
 
+import android.util.Base64;
+
 import javax.crypto.Mac;
+import javax.crypto.SecretKey;
 import javax.crypto.ShortBufferException;
+import javax.crypto.spec.SecretKeySpec;
+
 import java.security.InvalidKeyException;
 import java.security.Key;
 import java.security.NoSuchAlgorithmException;
@@ -35,14 +40,17 @@ public class HmacOtp {
     /**
      * Generates a one-time password using the given key and counter value.
      *
-     * @param key the key to be used to generate the password
+     * @param keyString the key (in string format) to be used to generate the password
      * @param counter the counter value for which to generate the password
      *
-     * @return an integer representation of a one-time password
+     * @return a string representation of a one-time password
      *
      * @throws InvalidKeyException if the given key is inappropriate for initializing the {@link Mac} for this generator
      */
-    public synchronized int generateHotp(final Key key, final long counter) throws InvalidKeyException {
+    public synchronized String generateHotp(final String keyString, final long counter) throws InvalidKeyException {
+        byte[] decodedKey = Base64.decode(keyString, Base64.DEFAULT);
+        SecretKey key = new SecretKeySpec(decodedKey, 0, decodedKey.length, "AES");
+
         this.mac.init(key);
 
         this.buffer[0] = (byte) ((counter & 0xff00000000000000L) >>> 56);
@@ -66,11 +74,19 @@ public class HmacOtp {
 
         final int offset = this.buffer[this.buffer.length - 1] & 0x0f;
 
-        return ((this.buffer[offset]     & 0x7f) << 24 |
+        int otpInt = ((this.buffer[offset]     & 0x7f) << 24 |
                 (this.buffer[offset + 1] & 0xff) << 16 |
                 (this.buffer[offset + 2] & 0xff) <<  8 |
                 (this.buffer[offset + 3] & 0xff)) %
                 this.modDivisor;
+
+        String otp = Integer.toString(otpInt);
+        while (otp.length() < 6)
+        {
+            otp = "0" + otp;
+        }
+
+        return otp;
     }
 
 }

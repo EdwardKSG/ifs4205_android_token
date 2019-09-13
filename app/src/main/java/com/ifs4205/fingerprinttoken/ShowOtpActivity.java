@@ -9,6 +9,13 @@ import android.os.Bundle;
 import android.widget.TextView;
 import static android.provider.Settings.Secure;
 import android.telephony.TelephonyManager;
+import android.widget.Toast;
+
+import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
+import java.security.InvalidKeyException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 import com.google.gson.Gson;
 
@@ -27,12 +34,27 @@ public class ShowOtpActivity extends AppCompatActivity {
         UserObject mUserObject = gson.fromJson(userBio, UserObject.class);
 
         String [] idList = getIdList();
+
+        String compositeKey = hash(nonce, idList[0], idList[1], idList[2]);
+        String otp = "000000";
+        try {
+            // counter value is a random magic number here
+            otp = new HmacOtp().generateHotp(compositeKey, 2147483649L);
+        } catch (NoSuchAlgorithmException nsae) {
+            // temporarily do nothing, because the exception shouldn't happen
+        } catch (InvalidKeyException ike) {
+            Toast.makeText(this, "SHA256 output is not supported by HOTP", Toast.LENGTH_LONG).show();
+        }
+
         String bio = "Nonce: " + nonce + "\n" +
                 "Android ID: " + idList[0] + "\n" +
                 "Device ID: " + idList[1] + "\n" +
                 "Subscriber ID: " + idList[2] + "\n" +
                 "User name: " + mUserObject.getUsername() + "\n" +
                 "Password: " + mUserObject.getPassword();
+
+        TextView otpTextValue = (TextView)findViewById(R.id.user_otp);
+        otpTextValue.setText(otp);
 
         TextView userTextValue = (TextView)findViewById(R.id.user_bio);
         userTextValue.setText(bio);
@@ -65,7 +87,59 @@ public class ShowOtpActivity extends AppCompatActivity {
         }
 
         return id;
-
-
     }
+
+    private String hash (String... keys) {
+        String result = "";
+
+        try {
+            for (String key : keys) {
+                result = toHexString(getSHA(result + key));
+            }
+        } catch (NoSuchAlgorithmException e) {
+            //temporarily do nothing, because the exception shouldn't happen
+        }
+
+        return result;
+    }
+
+    /**
+     * Use SHA-256 to compute message digest
+     *
+     * @param input the input message
+     *
+     * @return a byte array containing the message digest
+     */
+    public static byte[] getSHA(String input) throws NoSuchAlgorithmException
+    {
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+
+        // calculate message digest of an input and return a byte array
+        return md.digest(input.getBytes(StandardCharsets.UTF_8));
+    }
+
+    /**
+     * Convert a byte array to a hex string
+     *
+     * @param hash the message digest presented as byte array
+     *
+     * @return a byte array containing the message digest
+     */
+    public static String toHexString(byte[] hash)
+    {
+        // Convert a byte array into signum representation
+        BigInteger number = new BigInteger(1, hash);
+
+        // Convert message digest into hex value
+        StringBuilder hexString = new StringBuilder(number.toString(16));
+
+        // Pad with leading zeros
+        while (hexString.length() < 32)
+        {
+            hexString.insert(0, '0');
+        }
+
+        return hexString.toString();
+    }
+
 }
