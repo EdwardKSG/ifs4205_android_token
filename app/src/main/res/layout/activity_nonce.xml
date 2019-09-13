@@ -1,22 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="@dimen/_16sdp"
     android:orientation="vertical">
 
-    <ImageView
+
+    <SurfaceView
+        android:id="@+id/qr_scanner"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:adjustViewBounds="true"
-        android:paddingBottom="@dimen/_20sdp"
-        android:src="@drawable/nonce" />
+        android:layout_height="0dp"
+        android:layout_margin="@dimen/_20sdp"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/qr_scanner"
+        android:layout_marginTop="@dimen/_40sdp"
         android:orientation="vertical">
 
         <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
@@ -31,13 +40,13 @@
                 android:id="@+id/nonce"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
                 android:hint="@string/nonce_hint"
-                android:textColorHint="@color/colorLight"
                 android:inputType="textPassword"
                 android:maxLines="1"
-                android:background="@android:color/transparent"
+                android:padding="@dimen/_12sdp"
                 android:textColor="@color/colorBlack"
-                android:padding="@dimen/_12sdp" />
+                android:textColorHint="@color/colorLight" />
 
         </android.support.v7.widget.CardView>
 
@@ -45,15 +54,15 @@
             android:id="@+id/submit_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_24sdp"
-            android:paddingBottom="@dimen/_16sdp"
-            android:paddingTop="@dimen/_16sdp"
             android:layout_below="@+id/password_card"
+            android:layout_marginTop="@dimen/_24sdp"
+            android:background="@color/colorBlue"
+            android:paddingTop="@dimen/_16sdp"
+            android:paddingBottom="@dimen/_16sdp"
             android:text="@string/get_otp"
             android:textAllCaps="true"
             android:textColor="@color/colorWhite"
-            android:background="@color/colorBlue"
             android:textStyle="bold" />
     </LinearLayout>
 
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>

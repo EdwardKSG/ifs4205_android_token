@@ -53,6 +53,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private static final int REQUEST_USE_FINGERPRINT = 300;
     private static final int REQUEST_READ_PHONE_STATE = 400;
+    private static final int REQUEST_CAMERA_ACCESS = 500;
 
     protected static Gson mGson;
     protected static CustomSharedPreference mPref;
@@ -81,6 +82,7 @@ public class LoginActivity extends AppCompatActivity {
         // check support for android fingerprint on device
         checkDeviceFingerprintSupport();
         checkReadStatePerm();
+        checkCameraPerm();
         //generate fingerprint keystore
         generateFingerprintKeyStore();
         //instantiate Cipher class
@@ -112,6 +114,12 @@ public class LoginActivity extends AppCompatActivity {
     private void checkReadStatePerm() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_PHONE_STATE}, REQUEST_READ_PHONE_STATE);
+        }
+    }
+
+    private void checkCameraPerm() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_ACCESS);
         }
     }
 
@@ -170,14 +178,21 @@ public class LoginActivity extends AppCompatActivity {
             else{
                 Toast.makeText(this, R.string.fingerprint_permission_refused, Toast.LENGTH_LONG).show();
             }
-        }else if(requestCode == REQUEST_READ_PHONE_STATE){
+        } else if(requestCode == REQUEST_READ_PHONE_STATE){
             if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
 
             }
             else{
                 Toast.makeText(this, R.string.phone_state_permission_refused, Toast.LENGTH_LONG).show();
             }
-        }else{
+        } else if(requestCode == REQUEST_CAMERA_ACCESS){
+            if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
+
+            }
+            else{
+                Toast.makeText(this, R.string.camera_permission_refused, Toast.LENGTH_LONG).show();
+            }
+        } else{
             Toast.makeText(this, getString(R.string.Unknown_permission_request), Toast.LENGTH_LONG).show();
         }
     }

@@ -7,6 +7,7 @@
     <string name="Unknown_permission_request">Unrecognized permission request</string>
     <string name="fingerprint_permission_refused">" User refused Fingerprint permission"</string>
     <string name="phone_state_permission_refused">" User refused Reading Phone State permission"</string>
+    <string name="camera_permission_refused">" User refused Camera Access permission"</string>
     <string name="password_hint">Password</string>
     <string name="username_hint">Username</string>
     <string name="nonce_hint">Nonce</string>
