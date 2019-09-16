@@ -8,7 +8,6 @@ import javax.crypto.ShortBufferException;
 import javax.crypto.spec.SecretKeySpec;
 
 import java.security.InvalidKeyException;
-import java.security.Key;
 import java.security.NoSuchAlgorithmException;
 
 
@@ -43,7 +42,7 @@ public class HmacOtp {
      * @param keyString the key (in string format) to be used to generate the password
      * @param counter the counter value for which to generate the password
      *
-     * @return a string representation of a one-time password
+     * @return a string representation of a 6-digit one-time password
      *
      * @throws InvalidKeyException if the given key is inappropriate for initializing the {@link Mac} for this generator
      */
@@ -78,9 +77,11 @@ public class HmacOtp {
                 (this.buffer[offset + 1] & 0xff) << 16 |
                 (this.buffer[offset + 2] & 0xff) <<  8 |
                 (this.buffer[offset + 3] & 0xff)) %
-                this.modDivisor;
+                this.modDivisor; // modDivisor is for length truncation
 
         String otp = Integer.toString(otpInt);
+
+        // pad 0s at beginning if it is shorter than 6 digits
         while (otp.length() < 6)
         {
             otp = "0" + otp;

@@ -13,13 +13,15 @@ import android.widget.Toast;
 
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
-import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import com.google.gson.Gson;
 
 public class ShowOtpActivity extends AppCompatActivity {
+
+    final static String MSG_SUCCESS = "Your authentication message has been sent. Please proceed to the web login page.";
+    final static String MSG_FAIL = "Sorry. Failed to send authentication message. Please check the network connection.";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,19 +37,28 @@ public class ShowOtpActivity extends AppCompatActivity {
 
         String [] idList = getIdList();
 
+        // not supposed to be exposed. should neither be saved nor appear in any transfer
         String compositeKey = hash(idList[0], idList[1], idList[2]);
-        String hashedCompositeKey = hash(compositeKey);
-        String otp = "000000";
-        try {
-            // counter value is a random magic number here
-            otp = new HmacOtp().generateHotp(hashedCompositeKey, Long.parseLong(nonce));
-        } catch (NoSuchAlgorithmException nsae) {
-            // temporarily do nothing, because the exception shouldn't happen
-        } catch (InvalidKeyException ike) {
-            Toast.makeText(this, "SHA256 output is not supported by HOTP", Toast.LENGTH_LONG).show();
-        }
 
-        String bio = "Nonce: " + nonce + "\n" +
+        // this will be saved in the database at server side upon first mobile app login
+        String hashedCompositeKey = hash(compositeKey);
+
+        /*
+         * h: SHA256, ck: composite key
+         * digest = h(h(ck)+n)
+         * otp = digest XOR ck, this value will be transferred
+         */
+        String digest, otp;
+
+        digest = hash(hashedCompositeKey, nonce);
+        otp = HexStringXor.xorHex(digest, compositeKey);
+
+        String bio = "n: " + nonce + "\n" +
+                "ck: " + compositeKey + "\n" +
+                "h(ck): " + hashedCompositeKey + "\n" +
+                "h(h(ck)+n): " + digest + "\n" +
+                "h(h(ck)+n) XOR ck: " + otp + "\n" +
+                "Verified h(ck): " + hash(HexStringXor.xorHex(otp, digest)) + "\n" +
                 "Android ID: " + idList[0] + "\n" +
                 "Device ID: " + idList[1] + "\n" +
                 "Subscriber ID: " + idList[2] + "\n" +
@@ -59,6 +70,11 @@ public class ShowOtpActivity extends AppCompatActivity {
 
         TextView userTextValue = (TextView)findViewById(R.id.user_bio);
         userTextValue.setText(bio);
+
+        TextView resultValue = (TextView)findViewById(R.id.user_otp_title);
+        resultValue.setText(MSG_SUCCESS);
+
+
     }
 
     private String[] getIdList () {
@@ -95,7 +111,7 @@ public class ShowOtpActivity extends AppCompatActivity {
 
         try {
             for (String key : keys) {
-                result = toHexString(getSHA(result + key));
+                result = bytesToHexString(getSHA(result + key));
             }
         } catch (NoSuchAlgorithmException e) {
             //temporarily do nothing, because the exception shouldn't happen
@@ -124,9 +140,9 @@ public class ShowOtpActivity extends AppCompatActivity {
      *
      * @param hash the message digest presented as byte array
      *
-     * @return a byte array containing the message digest
+     * @return the message digest represented as a 32-byte hex string
      */
-    public static String toHexString(byte[] hash)
+    public static String bytesToHexString(byte[] hash)
     {
         // Convert a byte array into signum representation
         BigInteger number = new BigInteger(1, hash);
