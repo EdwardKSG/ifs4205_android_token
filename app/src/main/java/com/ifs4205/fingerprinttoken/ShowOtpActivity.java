@@ -35,11 +35,12 @@ public class ShowOtpActivity extends AppCompatActivity {
 
         String [] idList = getIdList();
 
-        String compositeKey = hash(nonce, idList[0], idList[1], idList[2]);
+        String compositeKey = hash(idList[0], idList[1], idList[2]);
+        String hashedCompositeKey = hash(compositeKey);
         String otp = "000000";
         try {
             // counter value is a random magic number here
-            otp = new HmacOtp().generateHotp(compositeKey, 2147483649L);
+            otp = new HmacOtp().generateHotp(hashedCompositeKey, Long.parseLong(nonce));
         } catch (NoSuchAlgorithmException nsae) {
             // temporarily do nothing, because the exception shouldn't happen
         } catch (InvalidKeyException ike) {
