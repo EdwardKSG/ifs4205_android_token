@@ -49,7 +49,7 @@ public class EnterNonceActivity extends AppCompatActivity {
                 .setBarcodeFormats(Barcode.QR_CODE).build();
 
         cameraSource = new CameraSource.Builder(this, barcodeDetector)
-                .setRequestedPreviewSize(640, 480).build();
+                .setRequestedPreviewSize(640, 640).build();
 
         surfaceView.getHolder().addCallback(new SurfaceHolder.Callback() {
             @Override
@@ -114,6 +114,12 @@ public class EnterNonceActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent userIntent = new Intent(EnterNonceActivity.this, MainActivity.class);
+        EnterNonceActivity.this.startActivity(userIntent);
     }
 
 }

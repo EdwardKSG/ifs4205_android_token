@@ -51,9 +51,9 @@ public class LoginActivity extends AppCompatActivity {
 
     private static final String FINGERPRINT_KEY = "key_name";
 
-    private static final int REQUEST_USE_FINGERPRINT = 300;
-    private static final int REQUEST_READ_PHONE_STATE = 400;
-    private static final int REQUEST_CAMERA_ACCESS = 500;
+    protected static final int REQUEST_USE_FINGERPRINT = 300;
+    protected static final int REQUEST_READ_PHONE_STATE = 400;
+    protected static final int REQUEST_CAMERA_ACCESS = 500;
 
     protected static Gson mGson;
     protected static CustomSharedPreference mPref;
@@ -81,8 +81,8 @@ public class LoginActivity extends AppCompatActivity {
 
         // check support for android fingerprint on device
         checkDeviceFingerprintSupport();
-        checkReadStatePerm();
-        checkCameraPerm();
+        //checkReadStatePerm();
+        //checkCameraPerm();
         //generate fingerprint keystore
         generateFingerprintKeyStore();
         //instantiate Cipher class
@@ -108,18 +108,6 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(LoginActivity.this, "Screen lock is not secure and enable", Toast.LENGTH_LONG).show();
             }
             return;
-        }
-    }
-
-    private void checkReadStatePerm() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_PHONE_STATE}, REQUEST_READ_PHONE_STATE);
-        }
-    }
-
-    private void checkCameraPerm() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_ACCESS);
         }
     }
 
@@ -211,13 +199,13 @@ public class LoginActivity extends AppCompatActivity {
         public void onAuthenticationError(int errorCode, CharSequence errString) {
             super.onAuthenticationError(errorCode, errString);
             Log.d(TAG, "Error message " + errorCode + ": " + errString);
-            Toast.makeText(context, context.getString(R.string.authenticate_fingerprint), Toast.LENGTH_LONG).show();
+            //Toast.makeText(context, context.getString(R.string.authenticate_fingerprint), Toast.LENGTH_LONG).show();
         }
 
         @Override
         public void onAuthenticationHelp(int helpCode, CharSequence helpString) {
             super.onAuthenticationHelp(helpCode, helpString);
-            Toast.makeText(context, R.string.auth_successful, Toast.LENGTH_LONG).show();
+            // Toast.makeText(context, R.string.authenticate_fingerprint, Toast.LENGTH_LONG).show();
         }
 
         @Override
@@ -226,7 +214,7 @@ public class LoginActivity extends AppCompatActivity {
             userString = mPref.getUserData();
             mUser = mGson.fromJson(userString, UserObject.class);
             if(mUser != null){
-                Toast.makeText(context, context.getString(R.string.auth_successful), Toast.LENGTH_LONG).show();
+                //Toast.makeText(context, context.getString(R.string.auth_successful), Toast.LENGTH_LONG).show();
 
                 Intent userIntent = new Intent(context, EnterNonceActivity.class);
                 userIntent.putExtra("USER_BIO", userString);
@@ -234,6 +222,8 @@ public class LoginActivity extends AppCompatActivity {
 
             }else{
                 Toast.makeText(context, "You must register before login with fingerprint", Toast.LENGTH_LONG).show();
+                Intent userIntent = new Intent(context, MainActivity.class);
+                context.startActivity(userIntent);
             }
         }
 
@@ -255,33 +245,5 @@ public class LoginActivity extends AppCompatActivity {
             }
         }
     }
-
-    /*private static void showPasswordAuthentication(Context context){
-        final Dialog openDialog = new Dialog(context);
-        openDialog.setContentView(R.layout.activity_nonce);
-        openDialog.setTitle("Enter Password");
-        final EditText passwordDialog = (EditText)openDialog.findViewById(R.id.password);
-        Button loginWithPasswordButton = (Button)openDialog.findViewById(R.id.login_button);
-        loginWithPasswordButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String authPassword = passwordDialog.getText().toString();
-                if(TextUtils.isEmpty(authPassword)){
-                    Toast.makeText(view.getContext(), "Password field must be filled", Toast.LENGTH_LONG).show();
-                    return;
-                }
-                if(mUser.getPassword().equals(authPassword)){
-                    Intent userIntent = new Intent(view.getContext(), ShowOtpActivity.class);
-                    userIntent.putExtra("USER_BIO", userString);
-                    view.getContext().startActivity(userIntent);
-                }else{
-                    Toast.makeText(view.getContext(), "Incorrect password! Try again", Toast.LENGTH_LONG).show();
-                    return;
-                }
-                openDialog.dismiss();
-            }
-        });
-        openDialog.show();
-    }*/
 
 }

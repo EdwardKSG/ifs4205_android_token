@@ -23,7 +23,7 @@
         android:padding="@dimen/_15sdp"
         android:textColor="@color/colorBlack"
         android:textSize="@dimen/_15sdp"
-        android:text="Please press you finger on the fingerprint sensor to authenticate."
+        android:text="Please press you finger on the fingerprint sensor to authenticate.\n\nFailing too many times may disable the sensor. You can go back to the main page and try sign in again"
         android:id="@+id/user_bio"/>
 
 </LinearLayout>

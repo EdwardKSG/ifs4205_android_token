@@ -1,7 +1,10 @@
 package com.ifs4205.fingerprinttoken;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,6 +12,9 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+
+import static com.ifs4205.fingerprinttoken.LoginActivity.REQUEST_CAMERA_ACCESS;
+import static com.ifs4205.fingerprinttoken.LoginActivity.REQUEST_READ_PHONE_STATE;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -45,5 +51,20 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(signInIntent);
             }
         });
+
+        checkReadStatePerm();
+        checkCameraPerm();
+    }
+
+    private void checkReadStatePerm() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_PHONE_STATE}, REQUEST_READ_PHONE_STATE);
+        }
+    }
+
+    private void checkCameraPerm() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_ACCESS);
+        }
     }
 }
