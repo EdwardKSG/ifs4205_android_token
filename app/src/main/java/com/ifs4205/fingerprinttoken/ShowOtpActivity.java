@@ -20,7 +20,8 @@ import com.google.gson.Gson;
 
 public class ShowOtpActivity extends AppCompatActivity {
 
-    final static String MSG_SUCCESS = "Your authentication message has been sent. Please proceed to the web login page.";
+    //final static String MSG_SUCCESS = "Your authentication message has been sent. Please proceed to the web login page.";
+    final static String MSG_SUCCESS = "Your One-Time-Password (OTP) is:";
     final static String MSG_FAIL = "Sorry. Failed to send authentication message. Please check the network connection.";
 
     @Override
@@ -50,7 +51,7 @@ public class ShowOtpActivity extends AppCompatActivity {
          */
         String digest, otp;
 
-        digest = hash(hashedCompositeKey, nonce);
+        digest = hash(hashedCompositeKey + nonce);
         otp = HexStringXor.xorHex(digest, compositeKey);
 
         String bio = "n: " + nonce + "\n" +
@@ -66,7 +67,7 @@ public class ShowOtpActivity extends AppCompatActivity {
                 "Password: " + mUserObject.getPassword();
 
         TextView otpTextValue = (TextView)findViewById(R.id.user_otp);
-        otpTextValue.setText(otp);
+        otpTextValue.setText(otp.substring(otp.length()-6));
 
         TextView userTextValue = (TextView)findViewById(R.id.user_bio);
         userTextValue.setText(bio);
