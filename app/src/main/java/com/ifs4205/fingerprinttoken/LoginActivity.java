@@ -57,7 +57,6 @@ public class LoginActivity extends AppCompatActivity {
 
     protected static Gson mGson;
     protected static CustomSharedPreference mPref;
-    private static UserObject mUser;
     private static String userString;
 
     @Override
@@ -211,20 +210,10 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         public void onAuthenticationSucceeded(FingerprintManager.AuthenticationResult result) {
             super.onAuthenticationSucceeded(result);
-            userString = mPref.getUserData();
-            mUser = mGson.fromJson(userString, UserObject.class);
-            if(mUser != null){
-                //Toast.makeText(context, context.getString(R.string.auth_successful), Toast.LENGTH_LONG).show();
 
-                Intent userIntent = new Intent(context, EnterNonceActivity.class);
-                userIntent.putExtra("USER_BIO", userString);
-                context.startActivity(userIntent);
-
-            }else{
-                Toast.makeText(context, "You must register before login with fingerprint", Toast.LENGTH_LONG).show();
-                Intent userIntent = new Intent(context, MainActivity.class);
-                context.startActivity(userIntent);
-            }
+            Intent userIntent = new Intent(context, EnterNonceActivity.class);
+            userIntent.putExtra("USER_BIO", userString);
+            context.startActivity(userIntent);
         }
 
         @Override

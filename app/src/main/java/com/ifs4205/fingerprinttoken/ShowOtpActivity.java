@@ -34,8 +34,6 @@ public class ShowOtpActivity extends AppCompatActivity {
         String userBio = getIntent().getExtras().getString("USER_BIO");
         Gson gson = ((CustomApplication)getApplication()).getGsonObject();
 
-        UserObject mUserObject = gson.fromJson(userBio, UserObject.class);
-
         String [] idList = getIdList();
 
         // not supposed to be exposed. should neither be saved nor appear in any transfer
@@ -62,9 +60,7 @@ public class ShowOtpActivity extends AppCompatActivity {
                 "Verified h(ck): " + hash(HexStringXor.xorHex(otp, digest)) + "\n" +
                 "Android ID: " + idList[0] + "\n" +
                 "Device ID: " + idList[1] + "\n" +
-                "Subscriber ID: " + idList[2] + "\n" +
-                "User name: " + mUserObject.getUsername() + "\n" +
-                "Password: " + mUserObject.getPassword();
+                "Subscriber ID: " + idList[2] + "\n";
 
         TextView otpTextValue = (TextView)findViewById(R.id.user_otp);
         otpTextValue.setText(otp.substring(otp.length()-6));
