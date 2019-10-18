@@ -23,7 +23,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.ifs4205.fingerprinttoken.LoginActivity" />
+        <activity android:name="com.ifs4205.fingerprinttoken.TransitActivity" />
         <activity android:name="com.ifs4205.fingerprinttoken.SignUpActivity" />
         <activity android:name="com.ifs4205.fingerprinttoken.EnterNonceActivity" />
         <activity android:name="com.ifs4205.fingerprinttoken.ShowOtpActivity"></activity>

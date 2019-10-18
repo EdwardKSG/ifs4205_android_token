@@ -108,8 +108,6 @@ public class EnterNonceActivity extends AppCompatActivity {
                 } else {
                     Intent userIntent = new Intent(view.getContext(), ShowOtpActivity.class);
                     userIntent.putExtra("NONCE", nonce);
-                    String userBio = getIntent().getExtras().getString("USER_BIO");
-                    userIntent.putExtra("USER_BIO", userBio);
                     view.getContext().startActivity(userIntent);
                 }
             }
@@ -118,7 +116,7 @@ public class EnterNonceActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent userIntent = new Intent(EnterNonceActivity.this, MainActivity.class);
+        Intent userIntent = new Intent(EnterNonceActivity.this, TransitActivity.class);
         EnterNonceActivity.this.startActivity(userIntent);
     }
 

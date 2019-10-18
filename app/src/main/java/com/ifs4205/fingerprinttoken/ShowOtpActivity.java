@@ -31,8 +31,6 @@ public class ShowOtpActivity extends AppCompatActivity {
         setTitle("One Time Password (OTP)");
 
         String nonce = getIntent().getExtras().getString("NONCE");
-        String userBio = getIntent().getExtras().getString("USER_BIO");
-        Gson gson = ((CustomApplication)getApplication()).getGsonObject();
 
         String [] idList = getIdList();
 
