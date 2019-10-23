@@ -251,6 +251,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent userIntent = new Intent(MainActivity.this, MainActivity.class);
+        MainActivity.this.startActivity(userIntent);
+    }
+
     public void startHandler() {
         handler.postDelayed(r, 2*60*1000); //for 2 minutes
     }
