@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.ActionBar;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.Toast;
 
 import static com.ifs4205.fingerprinttoken.MainActivity.REQUEST_CAMERA_ACCESS;
 import static com.ifs4205.fingerprinttoken.MainActivity.REQUEST_READ_PHONE_STATE;
@@ -21,6 +23,8 @@ import static com.ifs4205.fingerprinttoken.MainActivity.REQUEST_READ_PHONE_STATE
 public class TransitActivity extends AppCompatActivity {
 
     private static final String TAG = TransitActivity.class.getSimpleName();
+
+    Runnable r;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +58,17 @@ public class TransitActivity extends AppCompatActivity {
             }
         });
 
+        r = new Runnable() {
+
+            @Override
+            public void run() {
+                // TODO Auto-generated method stub
+                Toast.makeText(TransitActivity.this, "2 minutes time out. You are logged out.", Toast.LENGTH_SHORT).show();
+                Intent userIntent = new Intent(TransitActivity.this, MainActivity.class);
+                TransitActivity.this.startActivity(userIntent);
+            }
+        };
+
         checkPerm();
     }
 
@@ -79,4 +94,5 @@ public class TransitActivity extends AppCompatActivity {
         return granted;
 
     }
+
 }

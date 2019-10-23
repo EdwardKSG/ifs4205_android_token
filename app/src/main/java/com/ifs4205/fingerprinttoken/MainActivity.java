@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.hardware.fingerprint.FingerprintManager;
 import android.os.Bundle;
 import android.os.CancellationSignal;
+import android.os.Handler;
 import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyProperties;
 import android.support.annotation.NonNull;
@@ -39,6 +40,9 @@ import javax.crypto.SecretKey;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
+
+    static public Handler handler;
+    Runnable r;
 
     private FingerprintManager fingerprintManager;
     private KeyguardManager keyguardManager;
@@ -89,7 +93,20 @@ public class MainActivity extends AppCompatActivity {
             cryptoObject = new FingerprintManager.CryptoObject(mCipher);
         }
 
+        handler = new Handler();
+        r = new Runnable() {
+
+            @Override
+            public void run() {
+                // TODO Auto-generated method stub
+                Toast.makeText(MainActivity.this, "2 minutes time out. You are logged out.", Toast.LENGTH_SHORT).show();
+                Intent userIntent = new Intent(MainActivity.this, MainActivity.class);
+                MainActivity.this.startActivity(userIntent);
+            }
+        };
+
         fingerprintHandler.completeFingerAuthentication(fingerprintManager, cryptoObject);
+
     }
 
     private void checkDeviceFingerprintSupport() {
@@ -183,9 +200,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public static class FingerprintHandler extends FingerprintManager.AuthenticationCallback{
+    public class FingerprintHandler extends FingerprintManager.AuthenticationCallback{
 
-        private static final String TAG = FingerprintHandler.class.getSimpleName();
+        private final String TAG = FingerprintHandler.class.getSimpleName();
 
         private Context context;
 
@@ -210,6 +227,7 @@ public class MainActivity extends AppCompatActivity {
         public void onAuthenticationSucceeded(FingerprintManager.AuthenticationResult result) {
             super.onAuthenticationSucceeded(result);
 
+            startHandler();
             Intent userIntent = new Intent(context, TransitActivity.class);
             context.startActivity(userIntent);
         }
@@ -231,6 +249,10 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(TAG, "An error occurred\n" + ex.getMessage());
             }
         }
+    }
+
+    public void startHandler() {
+        handler.postDelayed(r, 2*60*1000); //for 2 minutes
     }
 
 }

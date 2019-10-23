@@ -35,6 +35,8 @@ public class EnterNonceActivity extends AppCompatActivity {
 
     private BarcodeDetector barcodeDetector;
 
+    Runnable r;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,6 +114,17 @@ public class EnterNonceActivity extends AppCompatActivity {
                 }
             }
         });
+
+        r = new Runnable() {
+
+            @Override
+            public void run() {
+                // TODO Auto-generated method stub
+                Toast.makeText(EnterNonceActivity.this, "2 minutes time out. You are logged out.", Toast.LENGTH_SHORT).show();
+                Intent userIntent = new Intent(EnterNonceActivity.this, MainActivity.class);
+                EnterNonceActivity.this.startActivity(userIntent);
+            }
+        };
     }
 
     @Override

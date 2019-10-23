@@ -28,6 +28,8 @@ public class SignUpActivity extends AppCompatActivity {
 
     private static final String TAG = SignUpActivity.class.getSimpleName();
 
+    Runnable r;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +69,17 @@ public class SignUpActivity extends AppCompatActivity {
                     "Device infor copied to clipboard", Toast.LENGTH_LONG).show();
             }
         });
+
+        r = new Runnable() {
+
+            @Override
+            public void run() {
+                // TODO Auto-generated method stub
+                Toast.makeText(SignUpActivity.this, "2 minutes time out. You are logged out.", Toast.LENGTH_SHORT).show();
+                Intent userIntent = new Intent(SignUpActivity.this, MainActivity.class);
+                SignUpActivity.this.startActivity(userIntent);
+            }
+        };
     }
 
     private String[] getIdList () {

@@ -2,6 +2,7 @@ package com.ifs4205.fingerprinttoken;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -22,6 +23,8 @@ import com.google.gson.Gson;
 import com.ifs4205.fingerprinttoken.ComputationUtil;
 
 public class ShowOtpActivity extends AppCompatActivity {
+
+    Runnable r;
 
     //final static String MSG_SUCCESS = "Your authentication message has been sent. Please proceed to the web login page.";
     final static String MSG_SUCCESS = "Your One-Time-Password (OTP) is:";
@@ -71,6 +74,17 @@ public class ShowOtpActivity extends AppCompatActivity {
 
         TextView resultValue = (TextView)findViewById(R.id.user_otp_title);
         resultValue.setText(MSG_SUCCESS);
+
+        r = new Runnable() {
+
+            @Override
+            public void run() {
+                // TODO Auto-generated method stub
+                Toast.makeText(ShowOtpActivity.this, "2 minutes time out. You are logged out.", Toast.LENGTH_SHORT).show();
+                Intent userIntent = new Intent(ShowOtpActivity.this, MainActivity.class);
+                ShowOtpActivity.this.startActivity(userIntent);
+            }
+        };
 
 
     }
