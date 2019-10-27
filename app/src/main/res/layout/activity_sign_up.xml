@@ -20,7 +20,7 @@
         android:textColor="@color/colorBlack"
         android:textSize="@dimen/_15sdp"
         android:text="1. Finish the Username-Password login.\n\n2. Click the &quot;COPY DEVICE INFOR&quot; button for device linking."
-        android:id="@+id/user_bio"/>
+        android:id="@+id/instruction_1_2"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -39,6 +39,36 @@
             android:layout_marginRight="@dimen/_6sdp"
             android:textColor="@color/colorWhite"
             android:text="@string/device_infor"
+            android:textSize="@dimen/_15sdp"
+            android:background="@color/colorBlue"/>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:textColor="@color/colorBlack"
+        android:textSize="@dimen/_15sdp"
+        android:text="3. Click the &quot;CLEAR CLIPBOARD&quot; button to avoid leaking information."
+        android:id="@+id/instruction_3"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="@dimen/_15sdp"
+        android:layout_centerHorizontal="true"
+        android:gravity="top">
+
+        <Button
+            android:id="@+id/clear_clipboard"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginRight="@dimen/_6sdp"
+            android:textColor="@color/colorWhite"
+            android:text="@string/clear_clipboard"
             android:textSize="@dimen/_15sdp"
             android:background="@color/colorBlue"/>
     </LinearLayout>

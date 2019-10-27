@@ -57,6 +57,7 @@ public class ShowOtpActivity extends AppCompatActivity {
         otp = HexStringXor.xorHex(digest, compositeKey);
 
         String bio = "n: " + nonce + "\n" +
+                "random: " + ((CustomApplication)getApplication()).getShared().getUserData() + "\n" +
                 "ck: " + compositeKey + "\n" +
                 "h(ck): " + hashedCompositeKey + "\n" +
                 "h(h(ck)+n): " + digest + "\n" +
@@ -80,8 +81,7 @@ public class ShowOtpActivity extends AppCompatActivity {
             @Override
             public void run() {
                 // TODO Auto-generated method stub
-                Toast.makeText(ShowOtpActivity.this, "2 minutes time out. You are logged out.", Toast.LENGTH_SHORT).show();
-                Intent userIntent = new Intent(ShowOtpActivity.this, MainActivity.class);
+                Intent userIntent = new Intent(ShowOtpActivity.this, TimeoutActivity.class);
                 ShowOtpActivity.this.startActivity(userIntent);
             }
         };

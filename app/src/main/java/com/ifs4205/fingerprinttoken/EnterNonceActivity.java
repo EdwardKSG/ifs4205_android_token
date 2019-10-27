@@ -120,8 +120,7 @@ public class EnterNonceActivity extends AppCompatActivity {
             @Override
             public void run() {
                 // TODO Auto-generated method stub
-                Toast.makeText(EnterNonceActivity.this, "2 minutes time out. You are logged out.", Toast.LENGTH_SHORT).show();
-                Intent userIntent = new Intent(EnterNonceActivity.this, MainActivity.class);
+                Intent userIntent = new Intent(EnterNonceActivity.this, TimeoutActivity.class);
                 EnterNonceActivity.this.startActivity(userIntent);
             }
         };

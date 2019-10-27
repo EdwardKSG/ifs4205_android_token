@@ -15,7 +15,8 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:fullBackupContent="true">
         <activity android:name="com.ifs4205.fingerprinttoken.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,7 +27,8 @@
         <activity android:name="com.ifs4205.fingerprinttoken.TransitActivity" />
         <activity android:name="com.ifs4205.fingerprinttoken.SignUpActivity" />
         <activity android:name="com.ifs4205.fingerprinttoken.EnterNonceActivity" />
-        <activity android:name="com.ifs4205.fingerprinttoken.ShowOtpActivity"></activity>
+        <activity android:name="com.ifs4205.fingerprinttoken.ShowOtpActivity"/>
+        <activity android:name="com.ifs4205.fingerprinttoken.TimeoutActivity" />
 
         <meta-data android:name="com.google.android.gms.vision.DEPENDENCIES"
             android:value="barcode"></meta-data>

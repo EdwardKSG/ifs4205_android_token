@@ -99,8 +99,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 // TODO Auto-generated method stub
-                Toast.makeText(MainActivity.this, "2 minutes time out. You are logged out.", Toast.LENGTH_SHORT).show();
-                Intent userIntent = new Intent(MainActivity.this, MainActivity.class);
+                Intent userIntent = new Intent(MainActivity.this, TimeoutActivity.class);
                 MainActivity.this.startActivity(userIntent);
             }
         };

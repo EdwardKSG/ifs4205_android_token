@@ -22,6 +22,8 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 
+import java.util.Objects;
+
 import static com.ifs4205.fingerprinttoken.ComputationUtil.hash;
 
 public class SignUpActivity extends AppCompatActivity {
@@ -39,34 +41,58 @@ public class SignUpActivity extends AppCompatActivity {
 
         WebView myWebView = (WebView) findViewById(R.id.webview);
         myWebView.setWebViewClient(new WebViewClient());
-        myWebView.loadUrl("https://ifs4205team1-3.comp.nus.edu.sg/");
+        myWebView.loadUrl("https://ifs4205team1-3.comp.nus.edu.sg/mobileregister/login/");
 
         Button copyInforButton = (Button)findViewById(R.id.copy_infor);
+        Button clearClipboardButton = (Button)findViewById(R.id.clear_clipboard);
+
         copyInforButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            ClipboardManager clipboard = (ClipboardManager)
-                    getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipboardManager clipboard = (ClipboardManager)
+                        getSystemService(Context.CLIPBOARD_SERVICE);
 
-            String [] idList = getIdList();
+                String [] idList = getIdList();
 
-            // not supposed to be exposed. should neither be saved nor appear in any transfer
-            String compositeKey = hash(idList[0], idList[1], idList[2]);
+                // not supposed to be exposed. should neither be saved nor appear in any transfer
+                String compositeKey = hash(idList[0], idList[1], idList[2]);
 
-            // this will be saved in the database at server side upon first mobile app login
-            String hashedCompositeKey = hash(compositeKey);
+                // this will be saved in the database at server side upon first mobile app login
+                String hashedCompositeKey = hash(compositeKey);
 
-            String hashedCompositeKeyLastSix = hash(compositeKey.substring(compositeKey.length()-6));
+                String hashedCompositeKeyLastSix = hash(compositeKey.substring(compositeKey.length()-6));
 
-            // Creates a new text clip to put on the clipboard
-            ClipData clip = ClipData.newPlainText("device_infor",
-                    hashedCompositeKey + hashedCompositeKeyLastSix);
+                // Creates a new text clip to put on the clipboard
+                ClipData clip = ClipData.newPlainText("device_infor",
+                        hashedCompositeKey + hashedCompositeKeyLastSix);
 
-            // Set the clipboard's primary clip.
-            clipboard.setPrimaryClip(clip);
+                if (clipboard != null) {
+                    clipboard.setPrimaryClip(clip);
+                }
 
-            Toast.makeText(SignUpActivity.this,
-                    "Device infor copied to clipboard", Toast.LENGTH_LONG).show();
+                Toast.makeText(SignUpActivity.this,
+                        "Device infor copied to clipboard", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        clearClipboardButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ClipboardManager clipboard = (ClipboardManager)
+                        getSystemService(Context.CLIPBOARD_SERVICE);
+
+                // Create an empty clip.
+                ClipData clip = ClipData.newPlainText("","");
+
+                // Use the empty clip to overwrite all entries in the clipboard.
+                for (int i=0; i<50; i++) {
+                    if (clipboard != null) {
+                        clipboard.setPrimaryClip(clip);
+                    }
+                }
+
+                Toast.makeText(SignUpActivity.this,
+                        "Clipboard cleared", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -75,8 +101,7 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void run() {
                 // TODO Auto-generated method stub
-                Toast.makeText(SignUpActivity.this, "2 minutes time out. You are logged out.", Toast.LENGTH_SHORT).show();
-                Intent userIntent = new Intent(SignUpActivity.this, MainActivity.class);
+                Intent userIntent = new Intent(SignUpActivity.this, TimeoutActivity.class);
                 SignUpActivity.this.startActivity(userIntent);
             }
         };

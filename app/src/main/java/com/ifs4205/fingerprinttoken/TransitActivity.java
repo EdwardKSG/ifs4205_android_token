@@ -63,11 +63,16 @@ public class TransitActivity extends AppCompatActivity {
             @Override
             public void run() {
                 // TODO Auto-generated method stub
-                Toast.makeText(TransitActivity.this, "2 minutes time out. You are logged out.", Toast.LENGTH_SHORT).show();
-                Intent userIntent = new Intent(TransitActivity.this, MainActivity.class);
+                Intent userIntent = new Intent(TransitActivity.this, TimeoutActivity.class);
                 TransitActivity.this.startActivity(userIntent);
             }
         };
+
+        CustomSharedPreference pref = ((CustomApplication)getApplication()).getShared();
+        if (pref.getUserData().length() == 0) {
+            String randomId = getHexString(64);
+            pref.setUserData(randomId);
+        }
 
         checkPerm();
     }
@@ -93,6 +98,27 @@ public class TransitActivity extends AppCompatActivity {
 
         return granted;
 
+    }
+
+    // to generate a random hex string of length n
+    static String getHexString(int n) {
+
+        // range of characters in a hex string
+        String hexChars = "0123456789" + "abcdef";
+
+        // create StringBuffer
+        StringBuilder sb = new StringBuilder(n);
+
+        for (int i = 0; i < n; i++) {
+
+            // generate a random number to randomly select a character
+            int index = (int)(hexChars.length() * Math.random());
+
+            // add Character one by one in end of the string builder
+            sb.append(hexChars.charAt(index));
+        }
+
+        return sb.toString();
     }
 
 }
