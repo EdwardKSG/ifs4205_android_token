@@ -14,23 +14,12 @@ import static android.provider.Settings.Secure;
 import static com.ifs4205.fingerprinttoken.ComputationUtil.hash;
 
 import android.telephony.TelephonyManager;
-import android.widget.Toast;
-
-import java.math.BigInteger;
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-
-import com.google.gson.Gson;
-import com.ifs4205.fingerprinttoken.ComputationUtil;
 
 public class ShowOtpActivity extends AppCompatActivity {
 
     Runnable r;
 
-    //final static String MSG_SUCCESS = "Your authentication message has been sent. Please proceed to the web login page.";
     final static String MSG_SUCCESS = "Your One-Time-Password (OTP) is:";
-    final static String MSG_FAIL = "Sorry. Failed to send authentication message. Please check the network connection.";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,22 +52,8 @@ public class ShowOtpActivity extends AppCompatActivity {
         digest = hash(hashedCompositeKey + nonce);
         otp = HexStringXor.xorHex(digest, compositeKey);
 
-        String bio = "n: " + nonce + "\n" +
-                "random: " + ((CustomApplication)getApplication()).getShared().getUserData() + "\n" +
-                "ck: " + compositeKey + "\n" +
-                "h(ck): " + hashedCompositeKey + "\n" +
-                "h(h(ck)+n): " + digest + "\n" +
-                "h(h(ck)+n) XOR ck: " + otp + "\n" +
-                "Verified h(ck): " + hash(HexStringXor.xorHex(otp, digest)) + "\n" +
-                "Android ID: " + idList[0] + "\n" +
-                "Device ID: " + idList[1] + "\n" +
-                "Subscriber ID: " + idList[2] + "\n";
-
         TextView otpTextValue = (TextView)findViewById(R.id.user_otp);
         otpTextValue.setText(otp.substring(otp.length()-6));
-
-        TextView userTextValue = (TextView)findViewById(R.id.user_bio);
-        userTextValue.setText(bio);
 
         TextView resultValue = (TextView)findViewById(R.id.user_otp_title);
         resultValue.setText(MSG_SUCCESS);

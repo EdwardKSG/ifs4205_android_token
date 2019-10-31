@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.ActionBar;
@@ -17,10 +16,6 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.Toast;
-
-import static com.ifs4205.fingerprinttoken.MainActivity.REQUEST_CAMERA_ACCESS;
-import static com.ifs4205.fingerprinttoken.MainActivity.REQUEST_READ_PHONE_STATE;
 
 public class TransitActivity extends AppCompatActivity {
 
