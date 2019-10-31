@@ -20,7 +20,7 @@
         android:gravity="center"
         android:textColor="@color/colorWhite"
         android:textSize="@dimen/_30sdp"
-        android:text="Your 2-minute session has expired."
+        android:text="Your session has expired."
         android:id="@+id/user_bio"/>
 
     <LinearLayout

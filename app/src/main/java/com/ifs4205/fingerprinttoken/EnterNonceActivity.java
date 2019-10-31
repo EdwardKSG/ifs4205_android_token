@@ -1,8 +1,10 @@
 package com.ifs4205.fingerprinttoken;
 
 import android.Manifest;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Vibrator;
 import android.support.v4.app.ActivityCompat;
@@ -43,6 +45,12 @@ public class EnterNonceActivity extends AppCompatActivity {
         setContentView(R.layout.activity_nonce);
 
         setTitle("Capture The Code");
+
+        IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_ON);
+        filter.addAction(Intent.ACTION_SCREEN_OFF);
+        BroadcastReceiver mReceiver = new ScreenReceiver();
+        registerReceiver(mReceiver, filter);
+
         surfaceView = (SurfaceView) findViewById(R.id.qr_scanner);
         nonceArea = (EditText)findViewById(R.id.nonce);
         submitButton = (Button)findViewById(R.id.submit_button);

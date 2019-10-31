@@ -1,8 +1,10 @@
 package com.ifs4205.fingerprinttoken;
 
 import android.Manifest;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.os.Handler;
@@ -34,6 +36,11 @@ public class TransitActivity extends AppCompatActivity {
         setContentView(R.layout.activity_transit);
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+        IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_ON);
+        filter.addAction(Intent.ACTION_SCREEN_OFF);
+        BroadcastReceiver mReceiver = new ScreenReceiver();
+        registerReceiver(mReceiver, filter);
 
         ActionBar actionBar = getSupportActionBar();
         if(null != actionBar){
