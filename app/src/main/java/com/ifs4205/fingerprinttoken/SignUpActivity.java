@@ -54,10 +54,10 @@ public class SignUpActivity extends AppCompatActivity {
 
                 String [] idList = getIdList();
 
-                String launchId = ((CustomApplication)getApplication()).getShared().getUserData();
+                String uuid = ((CustomApplication)getApplication()).getShared().getUserData();
 
                 // not supposed to be exposed. should neither be saved nor appear in any transfer
-                String compositeKey = hash(idList[0], idList[1], idList[2], launchId);
+                String compositeKey = hash(idList[0], idList[1], idList[2], uuid);
 
                 // this will be saved in the database at server side upon first mobile app login
                 String hashedCompositeKey = hash(compositeKey);

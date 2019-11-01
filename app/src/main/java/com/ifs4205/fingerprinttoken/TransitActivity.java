@@ -17,6 +17,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 
+import java.util.UUID;
+
 public class TransitActivity extends AppCompatActivity {
 
     private static final String TAG = TransitActivity.class.getSimpleName();
@@ -72,7 +74,7 @@ public class TransitActivity extends AppCompatActivity {
 
         CustomSharedPreference pref = ((CustomApplication)getApplication()).getShared();
         if (pref.getUserData().length() == 0) {
-            String randomId = getHexString(64);
+            String randomId = UUID.randomUUID().toString();
             pref.setUserData(randomId);
         }
 
@@ -100,27 +102,6 @@ public class TransitActivity extends AppCompatActivity {
 
         return granted;
 
-    }
-
-    // to generate a random hex string of length n
-    static String getHexString(int n) {
-
-        // range of characters in a hex string
-        String hexChars = "0123456789" + "abcdef";
-
-        // create StringBuffer
-        StringBuilder sb = new StringBuilder(n);
-
-        for (int i = 0; i < n; i++) {
-
-            // generate a random number to randomly select a character
-            int index = (int)(hexChars.length() * Math.random());
-
-            // add Character one by one in end of the string builder
-            sb.append(hexChars.charAt(index));
-        }
-
-        return sb.toString();
     }
 
 }
